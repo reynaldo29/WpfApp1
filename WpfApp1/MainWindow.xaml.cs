@@ -22,7 +22,7 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
 
-        SqlConnection connection = new SqlConnection("Data Source=LAB707-14\\SQLEXPRESS02;Initial Catalog=Semana4;Integrated Security=True");
+        SqlConnection connection = new SqlConnection("Data Source=DESKTOP-MH893DO;Initial Catalog=db_prueba;Integrated Security=True");
         public MainWindow()
         {
             InitializeComponent();
@@ -46,11 +46,11 @@ namespace WpfApp1
             parameter2.SqlDbType = System.Data.SqlDbType.VarChar;
             parameter1.Size = 50;
 
-            parameter2.Value = "";
+            parameter2.Value = txtName.Text;
             parameter2.ParameterName = "@FirstName";
 
 
-            command.Parameters.Add(parameter1);
+            
             command.Parameters.Add(parameter2);
 
             SqlDataReader dataReader = command.ExecuteReader();
@@ -59,19 +59,22 @@ namespace WpfApp1
             {
                 people.Add(new Person
                 {
-                    PersonId = dataReader["PeopleID"].ToString(),
+                    PersonId = dataReader["PersonId"].ToString(),
                     LastName = dataReader["LastName"].ToString(),
-                    FirstName = dataReader["^FirstName"].ToString(),
+                    FirstName = dataReader["FirstName"].ToString(),
+                 
 
                     FullName = string.Concat(dataReader["FirstName"].ToString(), " ",
                     dataReader["LastName"].ToString())
                 });
 
             }
+            connection.Close();
+            dvgPeople.ItemsSource = people;
 
         }
 
-        }
-       
     }
+       
+}
 
